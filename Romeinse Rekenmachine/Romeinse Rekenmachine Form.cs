@@ -19,10 +19,10 @@ namespace Romeinse_Rekenmachine
             Output.Text = "-";
         }
                 
-        double Operand1 = 0;
-        double Operand2 = 0;
-        double result = 0;
-
+        public int First;
+        public int  Second;
+        public int Result = 0;
+        
         private string NaarRomGet(int getal)
         {
             if (getal < 1) return string.Empty;
@@ -70,8 +70,10 @@ namespace Romeinse_Rekenmachine
 
         private void Input_TextChanged(object sender, EventArgs e)
         {
-            Input = Temp;
-            
+            First = NaarIntGet(Input.Text);
+            First = Second;
+            Second = NaarIntGet(Input.Text);
+            First = NaarIntGet(Input.Text);
         }
 
         private void Output_TextChanged(object sender, EventArgs e)
@@ -93,19 +95,24 @@ namespace Romeinse_Rekenmachine
             string Operation = "";
             Button senderButton = (Button)sender;
             Operation = senderButton.Text;
+
+            Input.Text = First.ToString();
+            First = Second;
+            Input.Text = First.ToString();            
+
             switch (Operation)
             {
                 case "+":
-                    result = Operand1 + Operand2;
+                    Result = First + Second;
                     break;
                 case "-":
-                    result = Operand1 - Operand2;
+                    Result = First - Second;
                     break;
                 case "/":
-                    result = Operand1 / Operand2;
+                    Result = First / Second;
                     break;
                 case "*":
-                    result = Operand1 * Operand2;
+                    Result = First * Second;
                     break;
                 default:
                     break;
@@ -114,7 +121,7 @@ namespace Romeinse_Rekenmachine
 
         private void Equals_Click(object sender, EventArgs e)
         {
-            Output.Text = result.ToString();
+
         }
 
         private void Clear_Click(object sender, EventArgs e)
@@ -128,6 +135,11 @@ namespace Romeinse_Rekenmachine
         private void Clear_Entry_Click(object sender, EventArgs e)
         {
             //Later nog invoer aan geven. Nu nog niet nodig.
+        }
+
+        private void UpdateView()
+        {
+            Output.Text = NaarRomGet(Result);
         }
     }
 }
