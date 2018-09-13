@@ -1,0 +1,10 @@
+C:\Users\User\source\repos\Romeinse Rekenmachine\Romeinse Rekenmachine\bin\Debug\Romeinse Rekenmachine.exe.config
+C:\Users\User\source\repos\Romeinse Rekenmachine\Romeinse Rekenmachine\bin\Debug\Romeinse Rekenmachine.exe
+C:\Users\User\source\repos\Romeinse Rekenmachine\Romeinse Rekenmachine\bin\Debug\Romeinse Rekenmachine.pdb
+C:\Users\User\source\repos\Romeinse Rekenmachine\Romeinse Rekenmachine\obj\Debug\Romeinse Rekenmachine.csprojAssemblyReference.cache
+C:\Users\User\source\repos\Romeinse Rekenmachine\Romeinse Rekenmachine\obj\Debug\Romeinse_Rekenmachine.Properties.Resources.resources
+C:\Users\User\source\repos\Romeinse Rekenmachine\Romeinse Rekenmachine\obj\Debug\Romeinse_Rekenmachine.Romeinse_Rekenmachine.resources
+C:\Users\User\source\repos\Romeinse Rekenmachine\Romeinse Rekenmachine\obj\Debug\Romeinse Rekenmachine.csproj.GenerateResource.cache
+C:\Users\User\source\repos\Romeinse Rekenmachine\Romeinse Rekenmachine\obj\Debug\Romeinse Rekenmachine.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Romeinse Rekenmachine\Romeinse Rekenmachine\obj\Debug\Romeinse Rekenmachine.exe
+C:\Users\User\source\repos\Romeinse Rekenmachine\Romeinse Rekenmachine\obj\Debug\Romeinse Rekenmachine.pdb
