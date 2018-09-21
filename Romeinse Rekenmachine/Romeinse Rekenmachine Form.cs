@@ -15,14 +15,23 @@ namespace Romeinse_Rekenmachine
         public Romeinse_Rekenmachine()
         {
             InitializeComponent();
-            Input.Text = "-";
-            Output.Text = "-";
+            Input.Text = "";
+            Output.Text = "";
         }
-                
-        public int First;
-        public int  Second;
-        public int Result = 0;
-        
+
+        char[] Operators = {'-', '+', '/', '*'};
+        string Operation;
+        string Input2;
+        string SplitString;
+        int Result = 0;
+        int First;
+        int Second;
+        bool EqualsClicked;
+        int StringSplitCounter = 0;
+        int Count = 0;
+        int OperatorCount = 0;
+        int InputCount = 0;
+
         private string NaarRomGet(int getal)
         {
             if (getal < 1) return string.Empty;
@@ -45,6 +54,8 @@ namespace Romeinse_Rekenmachine
 
         private int NaarIntGet(string RomGet)
         {
+            if (RomGet == null) return 0;
+
             RomGet = RomGet.ToUpper();
             if (RomGet.Length == 0) return 0;
             if (RomGet.Length >= 2)
@@ -70,10 +81,7 @@ namespace Romeinse_Rekenmachine
 
         private void Input_TextChanged(object sender, EventArgs e)
         {
-            First = NaarIntGet(Input.Text);
-            First = Second;
-            Second = NaarIntGet(Input.Text);
-            First = NaarIntGet(Input.Text);
+                        
         }
 
         private void Output_TextChanged(object sender, EventArgs e)
@@ -86,60 +94,219 @@ namespace Romeinse_Rekenmachine
             Button senderButton = (Button)sender;
             if (senderButton != null)
             {
-                Input.Text = (senderButton.Text);
+                Input.Text += (senderButton.Text);
             }
+
+            if (EqualsClicked == true)
+            {
+
+            }
+
+            else
+            {
+                First = NaarIntGet(Input.Text);
+            }            
+        }
+
+        public void StringSplitter()
+        {
+            int i;
+            foreach (char Operator in Operators)
+            {
+                InputCount++;
+                Count++;
+            }            
+
+            if (Input.Text.Contains('-'))
+            {
+                SplitString = Input.Text.Substring(StringSplitCounter);
+                First = NaarIntGet(SplitString);
+                StringSplitCounter += 4;
+                SplitString = Input.Text.Substring(StringSplitCounter);
+                Second = NaarIntGet(SplitString);
+                StringSplitCounter += 4;
+                Result = First - Second;
+
+                if (InputCount > 0)
+                {
+                    for (i = 0; i < InputCount - 1; i++)
+                    {
+                        First = Result;
+                        SplitString = Input.Text.Substring(StringSplitCounter);
+                        Second = NaarIntGet(SplitString);
+                        StringSplitCounter += 4;
+                        Result = First - Second;
+                    }
+                }
+            }
+
+            if (Input.Text.Contains('+'))
+            {
+                SplitString = Input.Text.Substring(StringSplitCounter);
+                First = NaarIntGet(SplitString);
+                StringSplitCounter += 4;
+                SplitString = Input.Text.Substring(StringSplitCounter);
+                Second = NaarIntGet(SplitString);
+                StringSplitCounter += 4;
+                Result = First + Second;
+
+                if (InputCount > 0)
+                {
+                    for (i = 0; i < InputCount - 1; i++)
+                    {
+                        First = Result;
+                        SplitString = Input.Text.Substring(StringSplitCounter);
+                        Second = NaarIntGet(SplitString);
+                        StringSplitCounter += 4;
+                        Result = First + Second;
+                    }
+                }
+            }
+
+            if (Input.Text.Contains('*'))
+            {
+                SplitString = Input.Text.Substring(StringSplitCounter);
+                First = NaarIntGet(SplitString);
+                StringSplitCounter += 4;
+                SplitString = Input.Text.Substring(StringSplitCounter);
+                Second = NaarIntGet(SplitString);
+                StringSplitCounter += 4;
+                Result = First * Second;
+
+                if (InputCount > 0)
+                {
+                    for (i = 0; i < InputCount - 1; i++)
+                    {
+                        First = Result;
+                        SplitString = Input.Text.Substring(StringSplitCounter);
+                        Second = NaarIntGet(SplitString);
+                        StringSplitCounter += 4;
+                        Result = First * Second;
+                    }                                   
+                }
+            }
+
+            if (Input.Text.Contains('/'))
+            {
+                SplitString = Input.Text.Substring(StringSplitCounter);
+                First = NaarIntGet(SplitString);
+                StringSplitCounter += 4;
+                SplitString = Input.Text.Substring(StringSplitCounter);
+                Second = NaarIntGet(SplitString);
+                StringSplitCounter += 4;
+                Result = First / Second;
+
+                if (InputCount > 0)
+                {
+                    for (i = 0; i < InputCount - 1; i++)
+                    {
+                        First = Result;
+                        SplitString = Input.Text.Substring(StringSplitCounter);
+                        Second = NaarIntGet(SplitString);
+                        StringSplitCounter += 4;
+                        Result = First / Second;
+                    }
+                }
+            }            
         }
 
         private void Operator_Click(object sender, EventArgs e)
         {
-            string Operation = "";
+            OperatorCount++;
+
             Button senderButton = (Button)sender;
             Operation = senderButton.Text;
+            Input.Text += " " + Operation + " ";
 
-            Input.Text = First.ToString();
-            First = Second;
-            Input.Text = First.ToString();            
+            if (Operation != "")
+            {
+                Second = NaarIntGet(Input.Text);
+            }            
+        }
 
+        private void Equals_Click(object sender, EventArgs e)
+        {
+            EqualsClicked = true;
+
+            if (First > 3001 || Second > 3001)
+            {
+                Input.Text = "Index out of range.";
+                MessageBox.Show("Index out of range.");
+            }
+            
+            StringSplitter();
+            Recalculate();            
+
+            if (Result > 3001)
+            {
+                Output.Text = "Index out of range.";
+                MessageBox.Show("Index out of range.");
+            }
+
+            Operation = "";
+            Output.Text = NaarRomGet(Result);
+        }
+
+        public void Recalculate()
+        {
             switch (Operation)
             {
                 case "+":
                     Result = First + Second;
+                    if (Second == 0)
+                    {
+                        MessageBox.Show("Add zero exception.");
+                    }
                     break;
                 case "-":
                     Result = First - Second;
+                    if (Second == 0)
+                    {
+                        MessageBox.Show("Minus zero exception.");
+                    }
                     break;
                 case "/":
                     Result = First / Second;
+                    if (First == 0 || Second == 0)
+                    {
+                        MessageBox.Show("Divide by zero exception.");
+                    }
                     break;
                 case "*":
                     Result = First * Second;
+                    if (First == 0 || Second == 0)
+                    {
+                        MessageBox.Show("Multiply by zero exception.");
+                    }
                     break;
                 default:
                     break;
             }
         }
 
-        private void Equals_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void Clear_Click(object sender, EventArgs e)
         {
             Input.Text = "";
-            Input.Text = "-";
             Output.Text = "";
-            Output.Text = "-"; 
+            EqualsClicked = false;
         }
 
         private void Clear_Entry_Click(object sender, EventArgs e)
         {
-            //Later nog invoer aan geven. Nu nog niet nodig.
-        }
+            if (Input.Text.Length >= 1)
+            {
+                Input.Text = Input.Text.Substring(0, Input.Text.Length - 1);
+            }
 
-        private void UpdateView()
-        {
-            Output.Text = NaarRomGet(Result);
+            if (Output.Text.Length >= 1)
+            {
+                Output.Text = Output.Text.Substring(0, Output.Text.Length - 1);
+            }
+
+            if (Output.Text.Length == 0)
+            {
+                EqualsClicked = false;
+            }            
         }
     }
 }

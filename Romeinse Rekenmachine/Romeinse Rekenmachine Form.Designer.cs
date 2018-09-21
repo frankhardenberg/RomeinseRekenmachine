@@ -48,7 +48,7 @@
             // 
             // Input
             // 
-            this.Input.Location = new System.Drawing.Point(50, 12);
+            this.Input.Location = new System.Drawing.Point(50, 24);
             this.Input.Multiline = true;
             this.Input.Name = "Input";
             this.Input.Size = new System.Drawing.Size(296, 68);
