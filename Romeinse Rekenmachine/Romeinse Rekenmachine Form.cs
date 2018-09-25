@@ -31,9 +31,11 @@ namespace Romeinse_Rekenmachine
         int OperatorCount = 0;
         int InputCount = -1;
         int SplitLength;
+        int CharCount;
+        int OperatorCount2;
         string Res = "";
         string SplitResult;
-        string Emptystring = "";
+        string EmptyString = "";
         private string NaarRomGet(int getal)
         {
             if (getal < 1) return string.Empty;
@@ -161,38 +163,38 @@ namespace Romeinse_Rekenmachine
 
             if (Input.Text.Contains('+'))
             {
-                //SplitString = Input.Text.Substring(StringSplitCounter);
-                string EmptyString = "";
                 SplitResult = Res;
-                Res = Res.Split('-', '+', '*', '/')[0];
-                First = NaarIntGet(Res);
-                SplitResult = SplitResult.Replace(Res, EmptyString);
-                SplitLength = SplitResult.Length;
-                //SplitResult.Length = SplitResult.Length - SplitLength;
-                SplitResult = SplitResult.Length.ToString();
-                Res = SplitResult;// NOG EEA TOEVOEGEN ZOALS JE ZIET
-
-
-                Res = Res.Split('-', '+', '*', '/')[0];
-                //StringSplitCounter += 2;
-                //SplitString = Input.Text.Substring(StringSplitCounter);
-                Second = NaarIntGet(Res);
-                Res = Res.Split('-', '+', '*', '/')[2];
-                //StringSplitCounter += 2;
-                Result = First + Second;
-
-                if (InputCount > 0)
+                foreach (var Word in Res)
                 {
-                    for (i = 0; i < InputCount - 1; i++)
+                    if (Word == '+' || Word == '-' || Word == '/' || Word == '*')
                     {
-                        First = Result;
-                        //SplitString = Input.Text.Substring(StringSplitCounter);
-                        Second = NaarIntGet(Res);
-                        Res = Res.Split('-', '+', '*', '/')[3];
-                        //StringSplitCounter += 2;
-                        Result = First + Second;
+                        OperatorCount2++;
+                        SplitResult = Res.Substring(0, CharCount);
+                        First = Res[CharCount];
+                        Res = SplitResult;
                     }
+
+                    else
+                    {
+                        CharCount++;
+                    }
+
+                    Second = Res[CharCount];
+                    Result = First + Second;
+                    First = Result;
+                    CharCount = 0;
                 }
+
+                
+
+                for (int j = 0; OperatorCount2 > j; j++)
+                    {
+                        SplitResult = Res.Substring(0, CharCount);
+                        Second = Res[CharCount];
+                        Res = SplitResult;
+                        Result = First + Second;
+                        First = Result;
+                    }               
             }
 
             if (Input.Text.Contains('*'))
