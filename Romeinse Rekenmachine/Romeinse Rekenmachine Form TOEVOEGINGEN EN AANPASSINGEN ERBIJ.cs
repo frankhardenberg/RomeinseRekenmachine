@@ -19,7 +19,7 @@ namespace Romeinse_Rekenmachine
             Output.Text = "";
         }
 
-        char[] Operators = { '-', '+', '/', '*' };
+        char[] Operators = {'-', '+', '/', '*'};
         string Operation;
         string SplitString;
         int Result = 0;
@@ -83,18 +83,18 @@ namespace Romeinse_Rekenmachine
 
         private void Input_TextChanged(object sender, EventArgs e)
         {
-
+                        
         }
 
         private void Output_TextChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         public string RemoveWhitespace(string InputString)
         {
             InputString = Input.Text;
-
+            
             foreach (var character in InputString)
             {
                 if (character != ' ')
@@ -106,9 +106,9 @@ namespace Romeinse_Rekenmachine
             return Res;
         }
 
+        
 
-
-        private void Numbers_Click(object sender, EventArgs e)
+    private void Numbers_Click(object sender, EventArgs e)
         {
             Button senderButton = (Button)sender;
             if (senderButton != null)
@@ -124,8 +124,8 @@ namespace Romeinse_Rekenmachine
             else
             {
                 First = NaarIntGet(Input.Text);
-            }
-        }
+            }            
+        }           
 
         public void StringSplitter()
         {
@@ -165,14 +165,14 @@ namespace Romeinse_Rekenmachine
                 string EmptyString = "";
                 SplitResult = Res;
                 Res = Res.Split('-', '+', '*', '/')[0];
-                First = NaarIntGet(Res);
+                First = NaarIntGet(Res);                
                 SplitResult = SplitResult.Replace(Res, EmptyString);
                 SplitLength = SplitResult.Length;
-                //SplitResult.Length = SplitResult.Length - SplitLength;
-                SplitResult = SplitResult.Length.ToString();
+                SplitResult.Length = SplitResult.Length - SplitLength;
+                SplitResult = SplitResult.Length;
                 Res = SplitResult;// NOG EEA TOEVOEGEN ZOALS JE ZIET
-
-
+                
+                
                 Res = Res.Split('-', '+', '*', '/')[0];
                 //StringSplitCounter += 2;
                 //SplitString = Input.Text.Substring(StringSplitCounter);
@@ -217,7 +217,7 @@ namespace Romeinse_Rekenmachine
                         Second = NaarIntGet(SplitString);
                         StringSplitCounter += 1;
                         Result = First * Second;
-                    }
+                    }                                   
                 }
             }
 
@@ -242,7 +242,7 @@ namespace Romeinse_Rekenmachine
                         Result = First / Second;
                     }
                 }
-            }
+            }            
         }
 
         private void Operator_Click(object sender, EventArgs e)
@@ -256,7 +256,7 @@ namespace Romeinse_Rekenmachine
             if (Operation != "")
             {
                 Second = NaarIntGet(Input.Text);
-            }
+            }            
         }
 
         private void Equals_Click(object sender, EventArgs e)
@@ -271,7 +271,7 @@ namespace Romeinse_Rekenmachine
 
             RemoveWhitespace(Input.Text);
             StringSplitter();
-            Recalculate();
+            Recalculate();            
 
             if (Result > 3001)
             {
@@ -318,7 +318,7 @@ namespace Romeinse_Rekenmachine
                 default:
                     break;
             }
-        }
+        }        
 
         private void Clear_Click(object sender, EventArgs e)
         {
@@ -342,7 +342,7 @@ namespace Romeinse_Rekenmachine
             if (Output.Text.Length == 0)
             {
                 EqualsClicked = false;
-            }
+            }            
         }
     }
 }
