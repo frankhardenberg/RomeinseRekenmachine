@@ -29,7 +29,8 @@ namespace Romeinse_Rekenmachine
         string SecondString;
         string Res;
         string ClearClickText;
-        string RomanTwoAndThree;
+        List<string> numbers = new List<string>();
+        List<string> operators = new List<string>();
 
         private string NaarRomGet(int getal)
         {
@@ -112,9 +113,7 @@ namespace Romeinse_Rekenmachine
         public void StringSplitter()
         {
             InputString = Input.Text;
-            string[] inputArray = InputString.Split(' ');
-            List<string> numbers = new List<string>();
-            List<string> operators = new List<string>();
+            string[] inputArray = InputString.Split(' ');            
             
             foreach (var part in inputArray)
             {
@@ -229,12 +228,20 @@ namespace Romeinse_Rekenmachine
 
         public string AddWhitespace(string Res)
         {
-            InputString = Res;
+            InputString = Input.Text;
             ClearClickText = String.Empty;
 
             foreach (var character in InputString)
-            {                
-                ClearClickText += character.ToString() + (' '); //Ook nog zorgen dat romeinse 2 en 3 als één getal wordt gezien.                
+            {
+                if (character == ' ')
+                {
+                    ClearClickText += character.ToString();
+                }
+
+                if(character == 'I' || character == 'V' || character == 'X' || character == 'L' || character == 'C' || character == 'D' || character == 'M' || character == '+' || character == '-' || character == '/' || character == '*')
+                {
+                    ClearClickText += character.ToString();
+                }                
             }
 
             return ClearClickText;           
@@ -259,31 +266,14 @@ namespace Romeinse_Rekenmachine
             RemoveWhitespace(Input.Text);
             Res = Res.Substring(0, Res.Length - 1);
             AddWhitespace(Res);
-
-            if (FirstString == "II" || FirstString == "III")
-            {
-                FirstString = String.Empty;
-            }
-
-            if (SecondString == "II" || SecondString == "III")
-            {
-                FirstString = String.Empty;
-            }
-
-            if (Input.Text == "III")
-            {
-                Input.Text.Substring(0, -3);
-            }
+            //Res = Res.Substring(0, Res.Length - 1);
 
             if (Input.Text.Length >= 1)
             {                
-                Input.Text = ClearClickText.Substring(0, ClearClickText.Length);                                             
-            }            
-
-            if (Output.Text.Length >= 1)
-            {
-                Output.Text = Output.Text.Substring(0, Output.Text.Length - 1);
+                Input.Text = ClearClickText.Substring(0, ClearClickText.Length - 1);                                             
             }
+
+            Output.Text = String.Empty;
 
             if (Input.Text == String.Empty && Output.Text == String.Empty)
             {
