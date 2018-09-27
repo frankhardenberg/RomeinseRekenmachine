@@ -90,6 +90,9 @@ namespace Romeinse_Rekenmachine
         
         private void Numbers_Click(object sender, EventArgs e)
         {
+            Clear.Enabled = true;
+            Clear_Entry.Enabled = true;
+
             Button senderButton = (Button)sender;
             if (senderButton != null)
             {
@@ -230,21 +233,11 @@ namespace Romeinse_Rekenmachine
             ClearClickText = String.Empty;
 
             foreach (var character in InputString)
-            {
-                if (InputString.Contains("II") || InputString.Contains("III"))
-                {
-                    RomanTwoAndThree += character.ToString();
-                    RemoveWhitespace(RomanTwoAndThree);
-                }
-
-                else
-                {
-                    ClearClickText += character.ToString() + (' ');
-                    InputString = ClearClickText;
-                }
+            {                
+                ClearClickText += character.ToString() + (' '); //Ook nog zorgen dat romeinse 2 en 3 als één getal wordt gezien.                
             }
 
-            return InputString;           
+            return ClearClickText;           
         }
 
         private void Clear_Click(object sender, EventArgs e)
@@ -254,27 +247,33 @@ namespace Romeinse_Rekenmachine
             EqualsClicked = false;
             OperatorCount2 = 0;
             Result = 0;
+
+            if (Input.Text == String.Empty && Output.Text == String.Empty)
+            {
+                Clear.Enabled = false;
+            }
         }
 
         private void Clear_Entry_Click(object sender, EventArgs e)
         {
-            if (Input.Text.Length == 0 || InputString.Length == 0)
-            {
-                Input.Text = String.Empty;
-            }
+            RemoveWhitespace(Input.Text);
+            Res = Res.Substring(0, Res.Length - 1);
+            AddWhitespace(Res);
 
             if (Input.Text.Length >= 1)
-            {
-                RemoveWhitespace(Input.Text);
-                Res = Res.Substring(0, Res.Length - 1);
-                AddWhitespace(Res);
-                Input.Text = InputString.Substring(0, InputString.Length - 1);                                             
+            {                
+                Input.Text = ClearClickText.Substring(0, ClearClickText.Length);                                             
             }            
 
             if (Output.Text.Length >= 1)
             {
                 Output.Text = Output.Text.Substring(0, Output.Text.Length - 1);
-            }            
+            }
+
+            if (Input.Text == String.Empty && Output.Text == String.Empty)
+            {
+                Clear_Entry.Enabled = false;
+            }
         }
     }
 }
