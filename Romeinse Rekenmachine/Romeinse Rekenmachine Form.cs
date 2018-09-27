@@ -15,8 +15,6 @@ namespace Romeinse_Rekenmachine
         public Romeinse_Rekenmachine()
         {
             InitializeComponent();
-            Input.Text = "";
-            Output.Text = "";
         }
 
         char[] Operators = { '-', '+', '/', '*' };
@@ -25,13 +23,13 @@ namespace Romeinse_Rekenmachine
         int First;
         int Second;
         bool EqualsClicked;
-        int Count = 0;
-        int OperatorCount = 0;
-        int InputCount = -1;
         int OperatorCount2;
         string InputString;
         string FirstString;
         string SecondString;
+        string Res;
+        string ClearClickText;
+        string RomanTwoAndThree;
 
         private string NaarRomGet(int getal)
         {
@@ -50,7 +48,7 @@ namespace Romeinse_Rekenmachine
             if (getal >= 4) return "IV" + NaarRomGet(getal - 4);
             if (getal >= 1) return "I" + NaarRomGet(getal - 1);
 
-            return ("");
+            return String.Empty;
         }
 
         private int NaarIntGet(string RomGet)
@@ -89,8 +87,7 @@ namespace Romeinse_Rekenmachine
         {
 
         }
-
-
+        
         private void Numbers_Click(object sender, EventArgs e)
         {
             Button senderButton = (Button)sender;
@@ -101,7 +98,6 @@ namespace Romeinse_Rekenmachine
 
             if (EqualsClicked == true)
             {
-
             }
 
             else
@@ -116,13 +112,7 @@ namespace Romeinse_Rekenmachine
             string[] inputArray = InputString.Split(' ');
             List<string> numbers = new List<string>();
             List<string> operators = new List<string>();
-
-            foreach (char Operator in Operators)
-            {
-                InputCount++;
-                Count++;
-            }
-
+            
             foreach (var part in inputArray)
             {
                 if (part == "+" || part == "-" || part == "*" || part == "/")
@@ -189,76 +179,72 @@ namespace Romeinse_Rekenmachine
 
         private void Operator_Click(object sender, EventArgs e)
         {
-            OperatorCount++;
-
             Button senderButton = (Button)sender;
             Operation = senderButton.Text;
             Input.Text += " " + Operation + " ";
-
-            if (Operation != "")
-            {
-                Second = NaarIntGet(Input.Text);
-            }
         }
 
         private void Equals_Click(object sender, EventArgs e)
         {
             EqualsClicked = true;
 
-            if (First > 3001 || Second > 3001)
+            if (First > 3000 || Second > 3000)
             {
-                Input.Text = "Index out of range.";
-                MessageBox.Show("Index out of range.");
+                Input.Text = "Inputs cannot be above 3000.";
             }
-            
+
             StringSplitter();
 
-            if (Result > 3001)
+            if (Result > 3000)
             {
-                Output.Text = "Index out of range.";
-                MessageBox.Show("Index out of range.");
-            }
+                Output.Text = "Result cannot be above 3000.";               
+            }            
 
-            Operation = "";
-            Output.Text = NaarRomGet(Result);
-            OperatorCount2 = 0;
+            if (Result <= 3000)
+            {
+                Operation = String.Empty;
+                Output.Text = NaarRomGet(Result);
+                OperatorCount2 = 0;
+            }
         }
 
-        public void Recalculate()
+        public string RemoveWhitespace(string InputString)
         {
-            switch (Operation)
+            InputString = Input.Text;
+            Res = String.Empty;
+
+            foreach (var character in InputString)
             {
-                case "+":
-                    Result = First + Second;
-                    if (Second == 0)
-                    {
-                        MessageBox.Show("Add zero exception.");
-                    }
-                    break;
-                case "-":
-                    Result = First - Second;
-                    if (Second == 0)
-                    {
-                        MessageBox.Show("Minus zero exception.");
-                    }
-                    break;
-                case "/":
-                    Result = First / Second;
-                    if (First == 0 || Second == 0)
-                    {
-                        MessageBox.Show("Divide by zero exception.");
-                    }
-                    break;
-                case "*":
-                    Result = First * Second;
-                    if (First == 0 || Second == 0)
-                    {
-                        MessageBox.Show("Multiply by zero exception.");
-                    }
-                    break;
-                default:
-                    break;
+                if (character != ' ')
+                {
+                    Res += character;
+                }
             }
+
+            return Res;
+        }
+
+        public string AddWhitespace(string Res)
+        {
+            InputString = Res;
+            ClearClickText = String.Empty;
+
+            foreach (var character in InputString)
+            {
+                if (InputString.Contains("II") || InputString.Contains("III"))
+                {
+                    RomanTwoAndThree += character.ToString();
+                    RemoveWhitespace(RomanTwoAndThree);
+                }
+
+                else
+                {
+                    ClearClickText += character.ToString() + (' ');
+                    InputString = ClearClickText;
+                }
+            }
+
+            return InputString;           
         }
 
         private void Clear_Click(object sender, EventArgs e)
@@ -266,188 +252,30 @@ namespace Romeinse_Rekenmachine
             Input.Text = "";
             Output.Text = "";
             EqualsClicked = false;
+            OperatorCount2 = 0;
+            Result = 0;
         }
 
         private void Clear_Entry_Click(object sender, EventArgs e)
         {
+            if (Input.Text.Length == 0 || InputString.Length == 0)
+            {
+                Input.Text = String.Empty;
+            }
+
             if (Input.Text.Length >= 1)
             {
-                Input.Text = Input.Text.Substring(0, Input.Text.Length - 1);
-            }
+                RemoveWhitespace(Input.Text);
+                Res = Res.Substring(0, Res.Length - 1);
+                AddWhitespace(Res);
+                Input.Text = InputString.Substring(0, InputString.Length - 1);                                             
+            }            
 
             if (Output.Text.Length >= 1)
             {
                 Output.Text = Output.Text.Substring(0, Output.Text.Length - 1);
-            }
-
-            if (Output.Text.Length == 0)
-            {
-                EqualsClicked = false;
-            }
+            }            
         }
-
-        /*if (Input.Text.Contains('-'))
-        {
-            foreach (var part in inputArray)
-            {
-                if (part == "+" || part == "-" || part == "*" || part == "/")
-                {
-                    operators.Add(part);
-                }
-
-                else
-                {
-                    numbers.Add(part);
-                }
-            }
-
-            int j = 0;
-
-            foreach (var op in operators)
-            {
-                OperatorCount2++;
-
-                if (OperatorCount2 == 1 && OperatorCount2 != 0)
-                {
-                    FirstString = numbers[j];
-                    First = NaarIntGet(FirstString);
-                    SecondString = numbers[j + 1];
-                    Second = NaarIntGet(SecondString);
-                    Result = First - Second;
-                }
-                else
-                {
-                    j++;
-                    First = Result;
-                    SecondString = numbers[j + 1];
-                    Second = NaarIntGet(SecondString);
-                    Result = First - Second;
-                }
-            }
-        }
-
-        if (Input.Text.Contains('+'))
-        {
-            foreach (var part in inputArray)
-            {
-                if (part == "+" || part == "-" || part == "*" || part == "/")
-                {
-                    operators.Add(part);
-                }
-
-                else
-                {
-                    numbers.Add(part);
-                }
-            }
-
-            int j = 0;
-
-            foreach (var op in operators)
-            {
-                OperatorCount2++;
-
-                if (OperatorCount2 == 1 && OperatorCount2 != 0)
-                {
-                    FirstString = numbers[j];
-                    First = NaarIntGet(FirstString);
-                    SecondString = numbers[j + 1];
-                    Second = NaarIntGet(SecondString);
-                    Result = First + Second;
-                }
-
-                else
-                {
-                    j++;
-                    First = Result;
-                    SecondString = numbers[j + 1];
-                    Second = NaarIntGet(SecondString);
-                    Result = First + Second;
-                }
-            }
-        }
-
-        if (Input.Text.Contains('*'))
-        {
-            foreach (var part in inputArray)
-            {
-                if (part == "+" || part == "-" || part == "*" || part == "/")
-                {
-                    operators.Add(part);
-                }
-
-                else
-                {
-                    numbers.Add(part);
-                }
-            }
-
-            int j = 0;
-
-            foreach (var op in operators)
-            {
-                OperatorCount2++;
-
-                if (OperatorCount2 == 1 && OperatorCount2 != 0)
-                {
-                    FirstString = numbers[j];
-                    First = NaarIntGet(FirstString);
-                    SecondString = numbers[j + 1];
-                    Second = NaarIntGet(SecondString);
-                    Result = First * Second;
-                }
-
-                else
-                {
-                    j++;
-                    First = Result;
-                    SecondString = numbers[j + 1];
-                    Second = NaarIntGet(SecondString);
-                    Result = First * Second;
-                }
-            }
-        }
-
-        if (Input.Text.Contains('/'))
-        {
-            foreach (var part in inputArray)
-            {
-                if (part == "+" || part == "-" || part == "*" || part == "/")
-                {
-                    operators.Add(part);
-                }
-
-                else
-                {
-                    numbers.Add(part);
-                }
-            }
-
-            int j = 0;
-
-            foreach (var op in operators)
-            {
-                OperatorCount2++;
-
-                if (OperatorCount2 == 1 && OperatorCount2 != 0)
-                {
-                    FirstString = numbers[j];
-                    First = NaarIntGet(FirstString);
-                    SecondString = numbers[j + 1];
-                    Second = NaarIntGet(SecondString);
-                    Result = First / Second;
-                }
-
-                else
-                {
-                    j++;
-                    First = Result;
-                    SecondString = numbers[j + 1];
-                    Second = NaarIntGet(SecondString);
-                    Result = First / Second;
-                }
-            }
-        }*/
     }
 }
 
