@@ -260,6 +260,21 @@ namespace Romeinse_Rekenmachine
             Res = Res.Substring(0, Res.Length - 1);
             AddWhitespace(Res);
 
+            if (FirstString == "II" || FirstString == "III")
+            {
+                FirstString = String.Empty;
+            }
+
+            if (SecondString == "II" || SecondString == "III")
+            {
+                FirstString = String.Empty;
+            }
+
+            if (Input.Text == "III")
+            {
+                Input.Text.Substring(0, -3);
+            }
+
             if (Input.Text.Length >= 1)
             {                
                 Input.Text = ClearClickText.Substring(0, ClearClickText.Length);                                             
