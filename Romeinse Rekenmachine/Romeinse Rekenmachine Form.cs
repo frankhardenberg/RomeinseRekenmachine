@@ -90,20 +90,6 @@ namespace Romeinse_Rekenmachine
 
         }
 
-        /*public string RemoveWhitespace(string InputString)
-        {
-            InputString = Input.Text;
-
-            foreach (var character in InputString)
-            {
-                if (character != ' ')
-                {
-                    Res += character;
-                }
-            }
-
-            return Res;
-        }*/
 
         private void Numbers_Click(object sender, EventArgs e)
         {
@@ -162,7 +148,7 @@ namespace Romeinse_Rekenmachine
                     First = NaarIntGet(FirstString);
                     SecondString = numbers[j + 1];
                     Second = NaarIntGet(SecondString);
-                    Result = First + op + Second;
+                    Result = Calculate(First, op, Second);
                 }
 
                 else
@@ -171,10 +157,35 @@ namespace Romeinse_Rekenmachine
                     First = Result;
                     SecondString = numbers[j + 1];
                     Second = NaarIntGet(SecondString);
-                    Result = First + op + Second;
+                    Result = Calculate(First, op, Second);
                 }
             }
-        } //Methode om char en int samen te laten werken. 
+        }
+
+        private int Calculate(int First, string op, int Second)
+        {
+            if (op == "+")
+            {
+                return First + Second;
+            }
+
+            else if (op == "-")
+            {
+                return First - Second;
+            }
+
+            else if (op == "*")
+            {
+                return First * Second;
+            }
+
+            else if (op == "/")
+            {
+                return First / Second;
+            }
+
+            return 0;
+        }
 
         private void Operator_Click(object sender, EventArgs e)
         {
@@ -199,10 +210,8 @@ namespace Romeinse_Rekenmachine
                 Input.Text = "Index out of range.";
                 MessageBox.Show("Index out of range.");
             }
-
-            //RemoveWhitespace(Input.Text);
+            
             StringSplitter();
-            Recalculate();
 
             if (Result > 3001)
             {
@@ -212,6 +221,7 @@ namespace Romeinse_Rekenmachine
 
             Operation = "";
             Output.Text = NaarRomGet(Result);
+            OperatorCount2 = 0;
         }
 
         public void Recalculate()
