@@ -29,6 +29,7 @@ namespace Romeinse_Rekenmachine
         string SecondString;
         string Res;
         string ClearClickText;
+        string TemporaryString;
         List<string> numbers = new List<string>();
         List<string> operators = new List<string>();
 
@@ -261,16 +262,15 @@ namespace Romeinse_Rekenmachine
             }
         }
 
-        private void Clear_Entry_Click(object sender, EventArgs e)
+        private void Clear_Entry_Click(object sender, EventArgs e) //Eventueel nog fixen dat spatie's ook in 1x weggaan met een character.
         {
             RemoveWhitespace(Input.Text);
             Res = Res.Substring(0, Res.Length - 1);
             AddWhitespace(Res);
-            //Res = Res.Substring(0, Res.Length - 1);
 
             if (Input.Text.Length >= 1)
-            {                
-                Input.Text = ClearClickText.Substring(0, ClearClickText.Length - 1);                                             
+            {
+                Input.Text = ClearClickText.Substring(0, ClearClickText.Length - 1);                 
             }
 
             Output.Text = String.Empty;
