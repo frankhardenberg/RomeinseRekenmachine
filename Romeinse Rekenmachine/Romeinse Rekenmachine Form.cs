@@ -23,13 +23,13 @@ namespace Romeinse_Rekenmachine
         int First;
         int Second;
         bool EqualsClicked;
-        int OperatorCount2;
+        int OperatorCount;
         string InputString;
         string FirstString;
         string SecondString;
         string Res;
         string ClearClickText;
-        string TemporaryString;
+        string SpacesString;
         List<string> numbers = new List<string>();
         List<string> operators = new List<string>();
 
@@ -55,10 +55,18 @@ namespace Romeinse_Rekenmachine
 
         private int NaarIntGet(string RomGet)
         {
-            if (RomGet == null) return 0;
+            if (RomGet == null)
+            {
+                return 0;
+            }
 
             RomGet = RomGet.ToUpper();
-            if (RomGet.Length == 0) return 0;
+
+            if (RomGet.Length == 0)
+            {
+                return 0;
+            }
+
             if (RomGet.Length >= 2)
             {
                 if (RomGet.Substring(0, 2) == "CM") return 900 + NaarIntGet(RomGet.Substring(2));
@@ -82,20 +90,18 @@ namespace Romeinse_Rekenmachine
 
         private void Input_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void Output_TextChanged(object sender, EventArgs e)
         {
-
         }
         
         private void Numbers_Click(object sender, EventArgs e)
         {
             Clear.Enabled = true;
             Clear_Entry.Enabled = true;
-
             Button senderButton = (Button)sender;
+
             if (senderButton != null)
             {
                 Input.Text += (senderButton.Text);
@@ -133,9 +139,9 @@ namespace Romeinse_Rekenmachine
 
             foreach (var op in operators)
             {
-                OperatorCount2++;
+                OperatorCount++;
 
-                if (OperatorCount2 == 1 && OperatorCount2 != 0)
+                if (OperatorCount == 1 && OperatorCount != 0)
                 {
                     FirstString = numbers[j];
                     First = NaarIntGet(FirstString);
@@ -162,17 +168,17 @@ namespace Romeinse_Rekenmachine
                 return First + Second;
             }
 
-            else if (op == "-")
+            if (op == "-")
             {
                 return First - Second;
             }
 
-            else if (op == "*")
+            if (op == "*")
             {
                 return First * Second;
             }
 
-            else if (op == "/")
+            if (op == "/")
             {
                 return First / Second;
             }
@@ -207,7 +213,7 @@ namespace Romeinse_Rekenmachine
             {
                 Operation = String.Empty;
                 Output.Text = NaarRomGet(Result);
-                OperatorCount2 = 0;
+                OperatorCount = 0;
             }
         }
 
@@ -250,10 +256,10 @@ namespace Romeinse_Rekenmachine
 
         private void Clear_Click(object sender, EventArgs e)
         {
-            Input.Text = "";
-            Output.Text = "";
+            Input.Text = String.Empty;
+            Output.Text = String.Empty;
             EqualsClicked = false;
-            OperatorCount2 = 0;
+            OperatorCount = 0;
             Result = 0;
 
             if (Input.Text == String.Empty && Output.Text == String.Empty)
@@ -262,7 +268,7 @@ namespace Romeinse_Rekenmachine
             }
         }
 
-        private void Clear_Entry_Click(object sender, EventArgs e) //Eventueel nog fixen dat spatie's ook in 1x weggaan met een character.
+        private void Clear_Entry_Click(object sender, EventArgs e)
         {
             RemoveWhitespace(Input.Text);
             Res = Res.Substring(0, Res.Length - 1);
@@ -270,8 +276,15 @@ namespace Romeinse_Rekenmachine
 
             if (Input.Text.Length >= 1)
             {
-                Input.Text = ClearClickText.Substring(0, ClearClickText.Length - 1);                 
+                SpacesString = ClearClickText.Substring(0, ClearClickText.Length - 1);                
             }
+
+            if (SpacesString.EndsWith(" "))
+            {
+                SpacesString = ClearClickText.Substring(0, ClearClickText.Length - 2);
+            }
+
+            Input.Text = SpacesString;
 
             Output.Text = String.Empty;
 

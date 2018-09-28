@@ -265,7 +265,7 @@
         private System.Windows.Forms.Button Minus;
         private System.Windows.Forms.Button Multiply;
         private System.Windows.Forms.Button Divide;
-        private System.Windows.Forms.Button Equals;
+        private new System.Windows.Forms.Button Equals;
     }
 }
 
